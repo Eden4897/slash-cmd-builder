@@ -20,6 +20,6 @@ export async function handleCommand(interaction: CommandInteraction) {
 					ephemeral: true,
 				})
 			);
-		throw error;
+		console.error(`Error while executing "${interaction.commandName}" command:`, error);
 	}
 }
