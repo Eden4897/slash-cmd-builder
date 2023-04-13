@@ -15,7 +15,7 @@ async function handleAutocomplete(interaction) {
     const subcommandName = interaction.options.getSubcommand();
     if (subcommandName) {
         const subcommand = command.subcommands.find(subcommand => subcommand.data.name == subcommandName);
-        console.log(subcommand);
+        console.log(command.subcommands);
         if (subcommand.autocompleter) {
             const choices = (await subcommand.autocompleter(interaction)).map((choice) => ({ name: choice, value: choice }));
             return await interaction.respond(choices.slice(0, 25));
