@@ -7,32 +7,25 @@ async function handleAutocomplete(interaction) {
     // If command not found
     if (!builder_1.commands.get(interaction.commandName))
         throw new Error(`Cannot find the ${interaction.commandName} command but got an autocomplete request.`);
-    if (command.autocompleter) {
-        const choices = (await command.autocompleter(interaction)).map((choice) => ({ name: choice, value: choice }));
-        return await interaction.respond(choices.slice(0, 25));
-    }
-    // If it is a subcommand
-    const subcommandName = interaction.options.getSubcommand();
-    if (subcommandName) {
-        const subcommand = command.subcommands.find(subcommand => subcommand.data.name == subcommandName);
-        if (subcommand.autocompleter) {
-            const choices = (await subcommand.autocompleter(interaction)).map((choice) => ({ name: choice, value: choice }));
-            return await interaction.respond(choices.slice(0, 25));
-        }
-    }
-    // If it is a subcommand in a subcommand group
-    const subcommandGroupName = interaction.options.getSubcommandGroup();
+    const subcommandGroupName = interaction.options.getSubcommandGroup(false);
     if (subcommandGroupName) {
-        const subcommandGroup = command.subcommandGroups.find((subcommandGroup) => subcommandGroup.data.name == subcommandGroupName);
+        const subcommandGroup = command.subcommandGroups.find(subcommandGroup => subcommandGroup.data.name == subcommandGroupName);
         const subcommandName = interaction.options.getSubcommand();
         if (subcommandName) {
-            const subcommand = subcommandGroup.subcommands.find((subcommand) => subcommand.data.name == subcommandName);
-            if (subcommand.autocompleter) {
-                const choices = (await subcommand.autocompleter(interaction)).map((choice) => ({ name: choice, value: choice }));
-                return await interaction.respond(choices.slice(0, 25));
-            }
+            const subcommand = subcommandGroup.subcommands.find(subcommand => subcommand.data.name == subcommandName);
+            if (subcommand.autocompleter)
+                return await interaction.respond((await subcommand.autocompleter(interaction)).map(choice => ({ name: choice, value: choice })));
         }
     }
+    // If it is a subcommand
+    const subcommandName = interaction.options.getSubcommand(false);
+    if (subcommandName) {
+        const subcommand = command.subcommands.find(subcommand => subcommand.data.name == subcommandName);
+        if (subcommand.autocompleter)
+            return await interaction.respond((await subcommand.autocompleter(interaction)).map(choice => ({ name: choice, value: choice })));
+    }
+    if (command.autocompleter)
+        return await interaction.respond((await command.autocompleter(interaction)).map(choice => ({ name: choice, value: choice })));
 }
 exports.handleAutocomplete = handleAutocomplete;
 //# sourceMappingURL=autocomplete-handler.js.map
