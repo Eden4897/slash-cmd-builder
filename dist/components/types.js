@@ -5,11 +5,21 @@ class Command {
     get execute() {
         return (interaction) => {
             if (interaction.options.getSubcommand(false)) {
-                if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand())) {
-                    console.log(this.subcommands);
-                    throw new Error(`Subcommand ${interaction.options.getSubcommand()} not found under command ${this.data.name}.`);
+                if (interaction.options.getSubcommandGroup(false)) {
+                    if (this.subcommandGroups.length === 0)
+                        return this._execute(interaction);
+                    if (!this.subcommandGroups.find(subcommandGroup => subcommandGroup.data.name === interaction.options.getSubcommandGroup()))
+                        throw new Error(`Subcommand group ${interaction.options.getSubcommand()} not found under command ${this.data.name}.`);
+                    return this.subcommandGroups.find(subcommandGroup => subcommandGroup.data.name === interaction.options.getSubcommandGroup()).execute(interaction);
                 }
-                return this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()).execute(interaction);
+                if (interaction.options.getSubcommand(false)) {
+                    if (this.subcommands.length === 0)
+                        return this._execute(interaction);
+                    if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()))
+                        throw new Error(`Subcommand ${interaction.options.getSubcommand()} not found under command ${this.data.name}.`);
+                    return this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()).execute(interaction);
+                }
+                return this._execute(interaction);
             }
             return this._execute(interaction);
         };

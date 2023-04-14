@@ -5,16 +5,26 @@ export class Command {
   data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
   private _execute?: (interaction: CommandInteraction) => any;
   get execute() {
-    return (interaction: CommandInteraction) => {
+    return (interaction) => {
       if (interaction.options.getSubcommand(false)) {
-        if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand())) {
-          console.log(this.subcommands);
-          throw new Error(`Subcommand ${interaction.options.getSubcommand()} not found under command ${this.data.name}.`);
-        }
-        return this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()).execute(interaction);
+          if (interaction.options.getSubcommandGroup(false)) {
+              if (this.subcommandGroups.length === 0)
+                  return this._execute(interaction);
+              if (!this.subcommandGroups.find(subcommandGroup => subcommandGroup.data.name === interaction.options.getSubcommandGroup()))
+                  throw new Error(`Subcommand group ${interaction.options.getSubcommand()} not found under command ${this.data.name}.`);
+              return this.subcommandGroups.find(subcommandGroup => subcommandGroup.data.name === interaction.options.getSubcommandGroup()).execute(interaction);
+          }
+          if (interaction.options.getSubcommand(false)) {
+              if (this.subcommands.length === 0)
+                  return this._execute(interaction);
+              if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()))
+                  throw new Error(`Subcommand ${interaction.options.getSubcommand()} not found under command ${this.data.name}.`);
+              return this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()).execute(interaction);
+          }
+          return this._execute(interaction);
       }
       return this._execute(interaction);
-    };
+  };
   }
   set execute(fn: (interaction: CommandInteraction) => any) {
     this._execute = fn;
