@@ -7,8 +7,10 @@ export class Command {
   get execute() {
     return (interaction: CommandInteraction) => {
       if (interaction.options.getSubcommand(false)) {
-        if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()))
+        if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand())) {
+          console.log(this.subcommands);
           throw new Error(`Subcommand ${interaction.options.getSubcommand()} not found under command ${this.data.name}.`);
+        }
         return this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()).execute(interaction);
       }
       return this._execute(interaction);
