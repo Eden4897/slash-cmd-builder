@@ -7,10 +7,11 @@ import { SlashCommandBuilder, SlashCommandSubcommandGroupBuilder } from "@discor
 const commands: Collection<string, Command> = new Collection<string, Command>();
 
 const commandsDir = existsSync(path.join(process.cwd(), "/commands")) ? path.join(process.cwd(), "/commands") : path.join(process.cwd(), "/build/commands");
-
+console.log(`Loading commands from ${commandsDir}`);
 const commandFiles: string[] = readdirSync(path.join(commandsDir));
 commandFiles.forEach(file => {
   if (!file.endsWith(`.js`)) return;
+  console.log(`Loading command ${file}`);
   const command: Command = require(path.join(commandsDir, file)).default;
   commands.set(command.data.name, command);
 });
@@ -18,6 +19,7 @@ commandFiles.forEach(file => {
 const subcommandFolders = readdirSync(commandsDir, { withFileTypes: true }).filter(dirent => dirent.isDirectory());
 subcommandFolders.forEach(subcommandFolder => {
   const commandName = subcommandFolder.name;
+  console.log(`Loading subcommands for command ${commandName}`);
   if (!commandName.match(/^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$/u))
     throw new Error(`Invalid command file name: ${commandName}`);
 
@@ -29,6 +31,7 @@ subcommandFolders.forEach(subcommandFolder => {
   const subcommandFiles = childItems.filter(childItem => !childItem.isDirectory()).filter(childItem => childItem.name.endsWith(`.js`));
   subcommandFiles.forEach(subcommandFile => {
     const subcommandName = subcommandFile.name.split(`.`)[0];
+    console.log(`Loading subcommand ${subcommandName} for command ${commandName}`);
     const subcommand: Subcommand = require(path.join(commandsDir, commandName, subcommandName)).default;
     if (!subcommand) throw new Error(`Invalid subcommand file: ${subcommandName} (under the "${commandName}" command)`);
     subcommandObjs.push(subcommand);
@@ -37,6 +40,7 @@ subcommandFolders.forEach(subcommandFolder => {
   const subcommandGroupFolders = childItems.filter(childItem => childItem.isDirectory());
   subcommandGroupFolders.forEach(subcommandGroupFolder => {
     const subcommandGroupName = subcommandGroupFolder.name;
+    console.log(`Loading subcommand group ${subcommandGroupName} for command ${commandName}`);
     if (!subcommandGroupName.match(/^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$/u))
       throw new Error(`Invalid subcommand group file name: ${subcommandGroupName} (under the "${commandName}" command)`);
 
@@ -47,6 +51,7 @@ subcommandFolders.forEach(subcommandFolder => {
 
     subcommandFiles.forEach(subcommandFile => {
       const subcommandName = subcommandFile.name.split(`.`)[0];
+      console.log(`Loading subcommand ${subcommandName} for command ${commandName} and subcommand group ${subcommandGroupName}`);
       const subcommand: Subcommand = require(path.join(commandsDir, commandName, subcommandGroupName, subcommandName)).default;
       if (!subcommand) throw new Error(`Invalid subcommand file: ${subcommandName} (under the "${subcommandGroupName}" subcommand group under the "${commandName}" command)`);
       subcommandObjs.push(subcommand);
