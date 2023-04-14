@@ -76,5 +76,4 @@ subcommandFolders.forEach(subcommandFolder => {
   });
   commands.set(command.data.name, command);
 });
-console.log(commands)
 export { commands };

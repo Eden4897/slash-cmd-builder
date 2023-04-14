@@ -59,7 +59,6 @@ export class SubcommandGroup {
   get execute() {
     return (interaction: CommandInteraction) => {
       if (interaction.options.getSubcommand(false)) {
-        console.log(this.subcommands)
         if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()))
           throw new Error(`Subcommand ${interaction.options.getSubcommand()} not found under subcommand group ${this.data.name}.`);
         return this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()).execute(interaction);

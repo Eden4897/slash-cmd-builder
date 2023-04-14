@@ -69,5 +69,4 @@ subcommandFolders.forEach(subcommandFolder => {
     });
     commands.set(command.data.name, command);
 });
-console.log(commands);
 //# sourceMappingURL=builder.js.map
