@@ -8,13 +8,25 @@ export declare class Command {
     constructor(opt: Command);
     subcommandGroups?: SubcommandGroup[];
     subcommands?: Subcommand[];
-    autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]>;
+    autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]> | {
+        name: string;
+        value: string;
+    }[] | Promise<{
+        name: string;
+        value: string;
+    }[]>;
 }
 export declare class Subcommand {
     data: SlashCommandSubcommandBuilder;
     execute: (interaction: CommandInteraction) => any;
     constructor(opt: Subcommand);
-    autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]>;
+    autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]> | {
+        name: string;
+        value: string;
+    }[] | Promise<{
+        name: string;
+        value: string;
+    }[]>;
 }
 export declare class SubcommandGroup {
     data: SlashCommandSubcommandGroupBuilder;

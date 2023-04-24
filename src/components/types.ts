@@ -41,7 +41,7 @@ export class Command {
   }
   subcommandGroups?: SubcommandGroup[] = [];
   subcommands?: Subcommand[] = [];
-  autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]>;
+  autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]>  | { name: string, value: string }[] | Promise<{ name: string, value: string }[]>
 }
 
 export class Subcommand {
@@ -50,7 +50,7 @@ export class Subcommand {
   constructor(opt: Subcommand) {
     Object.assign(this, opt);
   };
-  autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]>;
+  autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]> | { name: string, value: string }[] | Promise<{ name: string, value: string }[]>
 }
 
 export class SubcommandGroup {
