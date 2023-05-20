@@ -10,6 +10,26 @@ async function handleCommand(interaction) {
         await command.execute(interaction);
     }
     catch (error) {
+        let subCommand = undefined;
+        let subCommandGroup = undefined;
+        // Try to fetch subcommand group, if it exists
+        if (interaction.options.data.find((option) => option.type === 'SUB_COMMAND_GROUP')) {
+            try {
+                subCommandGroup = interaction.options.getSubcommandGroup();
+            }
+            catch (e) {
+                subCommandGroup = undefined;
+            }
+        }
+        // Try to fetch subcommand, if it exists
+        if (interaction.options.data.find((option) => option.type === 'SUB_COMMAND')) {
+            try {
+                subCommand = interaction.options.getSubcommand();
+            }
+            catch (e) {
+                subCommand = undefined;
+            }
+        }
         await interaction
             .reply({
             content: 'There was an error while executing this command!',
@@ -19,10 +39,8 @@ async function handleCommand(interaction) {
             content: 'There was an error while executing this command!',
             ephemeral: true,
         }));
-        const subGroup = interaction.options.getSubcommandGroup();
-        const subCommand = interaction.options.getSubcommand();
-        if (subGroup) {
-            console.error(`Error while executing "${interaction.commandName}" command in subcommand group "${subGroup}":`, error);
+        if (subCommandGroup) {
+            console.error(`Error while executing "${interaction.commandName}" command in subcommand group "${subCommandGroup}":`, error);
         }
         else if (subCommand) {
             console.error(`Error while executing "${interaction.commandName}" command in subcommand "${subCommand}":`, error);
