@@ -29,7 +29,13 @@ export async function handleCommand(interaction: CommandInteraction) {
                 subCommand = undefined;
             }
         }
-
+        if (subCommandGroup) {
+            console.error(`Error while executing "${interaction.commandName}" command in subcommand group "${subCommandGroup}":`, error);
+        } else if (subCommand) {
+            console.error(`Error while executing "${interaction.commandName}" command in subcommand "${subCommand}":`, error);
+        } else {
+            console.error(`Error while executing "${interaction.commandName}" command:`, error);
+        }
         await interaction
             .reply({
                 content: 'There was an error while executing this command!',
@@ -42,12 +48,6 @@ export async function handleCommand(interaction: CommandInteraction) {
                 })
             );
 
-        if (subCommandGroup) {
-            console.error(`Error while executing "${interaction.commandName}" command in subcommand group "${subCommandGroup}":`, error);
-        } else if (subCommand) {
-            console.error(`Error while executing "${interaction.commandName}" command in subcommand "${subCommand}":`, error);
-        } else {
-            console.error(`Error while executing "${interaction.commandName}" command:`, error);
-        }
+       
     }
 }

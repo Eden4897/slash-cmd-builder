@@ -30,15 +30,6 @@ async function handleCommand(interaction) {
                 subCommand = undefined;
             }
         }
-        await interaction
-            .reply({
-            content: 'There was an error while executing this command!',
-            ephemeral: true,
-        })
-            .catch(() => interaction.followUp({
-            content: 'There was an error while executing this command!',
-            ephemeral: true,
-        }));
         if (subCommandGroup) {
             console.error(`Error while executing "${interaction.commandName}" command in subcommand group "${subCommandGroup}":`, error);
         }
@@ -48,6 +39,15 @@ async function handleCommand(interaction) {
         else {
             console.error(`Error while executing "${interaction.commandName}" command:`, error);
         }
+        await interaction
+            .reply({
+            content: 'There was an error while executing this command!',
+            ephemeral: true,
+        })
+            .catch(() => interaction.followUp({
+            content: 'There was an error while executing this command!',
+            ephemeral: true,
+        }));
     }
 }
 exports.handleCommand = handleCommand;
