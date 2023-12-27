@@ -1,11 +1,11 @@
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder, SlashCommandSubcommandsOnlyBuilder } from "@discordjs/builders";
-import { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import { AutocompleteInteraction, ChatInputCommandInteraction, CommandInteraction } from "discord.js";
 
 export class Command {
   data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
-  private _execute?: (interaction: CommandInteraction) => any;
+  private _execute?: (interaction: ChatInputCommandInteraction) => any;
   get execute() {
-    return (interaction) => {
+    return (interaction: ChatInputCommandInteraction) => {
       if (interaction.options.getSubcommand(false)) {
           if (interaction.options.getSubcommandGroup(false)) {
               if (this.subcommandGroups.length === 0)
@@ -57,7 +57,7 @@ export class SubcommandGroup {
   data: SlashCommandSubcommandGroupBuilder;
   private _execute?: (interaction: CommandInteraction) => any;
   get execute() {
-    return (interaction: CommandInteraction) => {
+    return (interaction: ChatInputCommandInteraction) => {
       if (interaction.options.getSubcommand(false)) {
         if (!this.subcommands.find(subcommand => subcommand.data.name === interaction.options.getSubcommand()))
           throw new Error(`Subcommand ${interaction.options.getSubcommand()} not found under subcommand group ${this.data.name}.`);

@@ -24,10 +24,7 @@
   },
   "homepage": "https://github.com/siim0n/slash-commands#readme",
   "dependencies": {
-    "discord.js": "^13.9.2"
-  },
-  "devDependencies": {
-    "typescript": "^4.6.2"
+    "discord.js": "^14.14.1"
   },
   "files": [
     "/dist"
