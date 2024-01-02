@@ -1,15 +1,17 @@
 {
   "name": "@illegalrazer/slash-commands",
-  "version": "0.9.4",
+  "version": "0.9.9",
   "description": "A NPM package to build SlashCommandBuilder discord.js objects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepare": "echo \"build it yourself\" "
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Eden4897/slash-commands.git"
+    "url": "git+https://github.com/siim0n/slash-commands.git"
   },
   "keywords": [
     "discord.js",
@@ -18,11 +20,11 @@
   "author": "Eden Cheung",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Eden4897/slash-commands/issues"
+    "url": "https://github.com/siim0n/slash-commands/issues"
   },
-  "homepage": "https://github.com/Eden4897/slash-commands#readme",
+  "homepage": "https://github.com/siim0n/slash-commands#readme",
   "dependencies": {
-    "discord.js": "^13.9.2"
+    "discord.js": "^14.14.1"
   },
   "files": [
     "/dist"
