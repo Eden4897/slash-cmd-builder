@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, CommandInteraction } from "discord.js";
+import { ApplicationCommandOptionType, ChatInputCommandInteraction } from "discord.js";
 import { commands } from "../builder";
 
 export async function handleCommand(interaction: ChatInputCommandInteraction) {
@@ -16,7 +16,6 @@ export async function handleCommand(interaction: ChatInputCommandInteraction) {
         //if (interaction.options.data.find((option) => option.type === 'SUB_COMMAND_GROUP')) {
         if (interaction.options.data.find((option) => option.type === ApplicationCommandOptionType.SubcommandGroup)) {
             try {
-          
                 subCommandGroup = interaction.options.getSubcommandGroup();
             } catch (e) {
                 subCommandGroup = undefined;
@@ -26,7 +25,6 @@ export async function handleCommand(interaction: ChatInputCommandInteraction) {
         // Try to fetch subcommand, if it exists
         if (interaction.options.data.find((option) => option.type === ApplicationCommandOptionType.Subcommand)) {
             try {
-            
                 subCommand = interaction.options.getSubcommand();
             } catch (e) {
                 subCommand = undefined;

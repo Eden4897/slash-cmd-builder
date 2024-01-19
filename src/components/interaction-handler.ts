@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Interaction } from "discord.js";
+import { Interaction } from "discord.js";
 import { handleAutocomplete } from "./handlers/autocomplete-handler";
 import { handleCommand } from "./handlers/command-handler";
 
