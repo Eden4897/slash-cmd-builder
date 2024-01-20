@@ -12,6 +12,8 @@ commandFiles.forEach(file => {
   if (!file.endsWith(`.js`)) return;
  
   const command: Command = require(path.join(commandsDir, file)).default;
+  if (!command) return;
+  
   commands.set(command.data.name, command);
 });
 

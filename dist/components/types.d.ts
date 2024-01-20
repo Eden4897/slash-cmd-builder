@@ -1,10 +1,10 @@
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder, SlashCommandSubcommandsOnlyBuilder } from "@discordjs/builders";
-import { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 export declare class Command {
     data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
     private _execute?;
-    get execute(): (interaction: CommandInteraction) => any;
-    set execute(fn: (interaction: CommandInteraction) => any);
+    get execute(): (interaction: ChatInputCommandInteraction) => any;
+    set execute(fn: (interaction: ChatInputCommandInteraction) => any);
     constructor(opt: Command);
     subcommandGroups?: SubcommandGroup[];
     subcommands?: Subcommand[];
@@ -18,7 +18,7 @@ export declare class Command {
 }
 export declare class Subcommand {
     data: SlashCommandSubcommandBuilder;
-    execute: (interaction: CommandInteraction) => any;
+    execute: (interaction: ChatInputCommandInteraction) => any;
     constructor(opt: Subcommand);
     autocompleter?: (interaction: AutocompleteInteraction) => string[] | Promise<string[]> | {
         name: string;
@@ -31,8 +31,8 @@ export declare class Subcommand {
 export declare class SubcommandGroup {
     data: SlashCommandSubcommandGroupBuilder;
     private _execute?;
-    get execute(): (interaction: CommandInteraction) => any;
-    set execute(fn: (interaction: CommandInteraction) => any);
+    get execute(): (interaction: ChatInputCommandInteraction) => any;
+    set execute(fn: (interaction: ChatInputCommandInteraction) => any);
     constructor(opt: SubcommandGroup);
     subcommands?: Subcommand[];
 }

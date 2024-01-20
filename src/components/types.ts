@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder, SlashCommandSubcommandsOnlyBuilder } from "@discordjs/builders";
-import { AutocompleteInteraction, ChatInputCommandInteraction, CommandInteraction } from "discord.js";
+import { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 
 export class Command {
   data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
@@ -26,7 +26,7 @@ export class Command {
       return this._execute(interaction);
   };
   }
-  set execute(fn: (interaction: CommandInteraction) => any) {
+  set execute(fn: (interaction: ChatInputCommandInteraction) => any) {
     this._execute = fn;
   }
 
@@ -46,7 +46,7 @@ export class Command {
 
 export class Subcommand {
   data: SlashCommandSubcommandBuilder;
-  execute: (interaction: CommandInteraction) => any;
+  execute: (interaction: ChatInputCommandInteraction) => any;
   constructor(opt: Subcommand) {
     Object.assign(this, opt);
   };
@@ -55,7 +55,7 @@ export class Subcommand {
 
 export class SubcommandGroup {
   data: SlashCommandSubcommandGroupBuilder;
-  private _execute?: (interaction: CommandInteraction) => any;
+  private _execute?: (interaction: ChatInputCommandInteraction) => any;
   get execute() {
     return (interaction: ChatInputCommandInteraction) => {
       if (interaction.options.getSubcommand(false)) {
@@ -66,7 +66,7 @@ export class SubcommandGroup {
       return this._execute(interaction);
     };
   }
-  set execute(fn: (interaction: CommandInteraction) => any) {
+  set execute(fn: (interaction: ChatInputCommandInteraction) => any) {
     this._execute = fn;
   }
 

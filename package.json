@@ -1,6 +1,6 @@
 {
   "name": "@illegalrazer/slash-commands",
-  "version": "0.14.0",
+  "version": "0.14.3",
   "description": "A NPM package to build SlashCommandBuilder discord.js objects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

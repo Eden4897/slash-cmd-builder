@@ -17,6 +17,8 @@ commandFiles.forEach(file => {
     if (!file.endsWith(`.js`))
         return;
     const command = require(path_1.default.join(commandsDir, file)).default;
+    if (!command)
+        return;
     commands.set(command.data.name, command);
 });
 const subcommandFolders = (0, fs_1.readdirSync)(commandsDir, { withFileTypes: true }).filter(dirent => dirent.isDirectory());
